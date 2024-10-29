@@ -68,9 +68,12 @@ const IframeCard = forwardRef<IframeCardRef | undefined, IframeCardProps>((props
 	}
 
 	const onRemoveIframe = (index: number) => {
-		const newIframes = iframes.filter((item, itemIndex) => itemIndex !== index);
-		notifyIsDataValid(checkIsDataValid(newIframes));
-		setIframes(newIframes);
+		const udatedIframes = iframes.filter((item, itemIndex) => itemIndex !== index);
+		udatedIframes.forEach((x, index) => {
+			x.order = index + 1;
+		});
+		notifyIsDataValid(checkIsDataValid(udatedIframes));
+		setIframes(udatedIframes);
 	}
 
 	const onUpdateIframe = (index: number, fieldName: string, value: string | boolean) => {

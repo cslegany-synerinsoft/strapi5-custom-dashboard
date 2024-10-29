@@ -54,7 +54,7 @@ const CategoryCard = forwardRef<CategoryCardRef | undefined, CategoryCardProps>(
 			updatedCategories = arrayMove<DashboardCategory>(updatedCategories, oldIndex, newIndex);
 			updatedCategories.forEach((x, index) => {
 				x.order = index + 1;
-			});			
+			});
 			setCategories(updatedCategories);
 		}
 	}
@@ -73,13 +73,16 @@ const CategoryCard = forwardRef<CategoryCardRef | undefined, CategoryCardProps>(
 	}
 
 	const onRemoveCategory = (index: number) => {
-		const newCategories = categories.filter((item, itemIndex) => itemIndex !== index);
-		notifyIsDataValid(checkIsDataValid(newCategories));
-		debouncedOnChange(newCategories);
-		setCategories(newCategories);
+		const updatedCategories = categories.filter((item, itemIndex) => itemIndex !== index);
+		updatedCategories.forEach((x, index) => {
+			x.order = index + 1;
+		});
+		notifyIsDataValid(checkIsDataValid(updatedCategories));
+		debouncedOnChange(updatedCategories);
+		setCategories(updatedCategories);
 	}
 
-	const onUpdateCategory = (index: number, fieldName: string, value: string) => {
+	const onUpdateCategory = (index: number, fieldName: string, value: string | boolean) => {
 		try {
 			let updatedCategories = categories.map((setting, settingIndex) => {
 				if (settingIndex === index) {

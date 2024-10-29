@@ -77,12 +77,15 @@ const ItemCard = forwardRef<ItemCardRef | undefined, ItemCardProps>((props: Item
 	}
 
 	const onRemoveItem = (index: number) => {
-		const newItems = categoryItems.filter((item, itemIndex) => itemIndex !== index);
-		notifyIsDataValid(checkIsDataValid(newItems));
-		setCategoryItems(newItems);
+		const updatedCategoryItems = categoryItems.filter((item, itemIndex) => itemIndex !== index);
+		updatedCategoryItems.forEach((x, index) => {
+			x.order = index + 1;
+		});
+		notifyIsDataValid(checkIsDataValid(updatedCategoryItems));
+		setCategoryItems(updatedCategoryItems);
 	}
 
-	const onUpdateItem = (index: number, fieldName: string, value: string) => {
+	const onUpdateItem = (index: number, fieldName: string, value: string | boolean) => {
 		try {
 			let updatedItems = categoryItems.map((setting, settingIndex) => {
 				if (settingIndex === index) {
